@@ -70,6 +70,24 @@ app.post("/user/:id", (req, res)=>{
     
 })
 
+app.delete("/user/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const userIndex = users.findIndex(user => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const deletedUser = users.splice(userIndex, 1);
+
+  res.json({
+    message: "User deleted successfully",
+    user: deletedUser[0]
+  });
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server running`);
 });
