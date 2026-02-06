@@ -87,6 +87,25 @@ app.delete("/user/:id", (req, res) => {
   });
 });
 
+app.put('/user/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    const userIndex = users.findIndex(u => u.id === userId);
+
+    if (userIndex === -1) {
+        return res.status(404).send('User not found');
+    }
+
+    const updates = req.body;
+    for (const key in updates) {
+        if (users[userIndex][key] !== undefined) {
+            users[userIndex][key] = updates[key];
+        }
+    }
+
+    res.json(users[userIndex]);
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running`);
